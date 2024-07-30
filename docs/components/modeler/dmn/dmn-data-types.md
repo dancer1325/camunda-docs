@@ -4,7 +4,7 @@ title: Data types
 description: On overview of the available data types in DMN.
 ---
 
-Camunda supports the following data types for DMN:
+* data types / -- supported for -- DMN
 
 | Type name         | Associated FEEL type                                                                                      |
 | ----------------- | --------------------------------------------------------------------------------------------------------- |
@@ -18,8 +18,9 @@ Camunda supports the following data types for DMN:
 | yearMonthDuration | [Years-Months-Duration](/components/modeler/feel/language-guide/feel-data-types.md#years-months-duration) |
 | Any               | Wildcard for any type                                                                                     |
 
-The data types can be used in the type definitions of DMN elements, for example:
-
-- [Decision table input](decision-table-input.md#input-type-definition)
-- [Decision table output](decision-table-output.md#output-type-definition)
-- [Decision literal expression variable](decision-literal-expression.md#variable-type-definition)
+* uses 
+  * | DMN elements's type definitions
+    * _Example:_
+      * [Decision table input](decision-table-input.md#input-type-definition)
+      * [Decision table output](decision-table-output.md#output-type-definition)
+      * [Decision literal expression variable](decision-literal-expression.md#variable-type-definition)
