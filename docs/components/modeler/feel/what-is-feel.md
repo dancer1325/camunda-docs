@@ -27,16 +27,13 @@ To evaluate your expressions, Camunda employs two distinct FEEL engines dependin
 
 ### FEEL Scala (Java FEEL engine)
 
-[**FEEL Scala**](https://github.com/camunda/feel-scala) is a Java-based FEEL engine integrated into the backend of our platform. It is primarily responsible for evaluating expressions in BPMN diagrams and DMN tables.
-
-:::info <a id="camunda-extensions">info</a>
-
-The FEEL Scala engine supports a set of extensions to standard DMN FEEL. The documentation marks them via the following tag:
-
-<MarkerCamundaExtension />
-:::
-
-Try out expressions in the [FEEL Scala Playground](https://camunda.github.io/feel-scala/docs/playground/).
+* [**FEEL Scala**](https://github.com/camunda/feel-scala)
+* := Java-based FEEL engine / integrated | backend of our platform
+  * use cases
+    * evaluating expressions | BPMN diagrams and DMN tables
+* supports a set of extensions / standard DMN FEEL
+  * Identified by `<MarkerCamundaExtension />`
+* [FEEL Scala Playground](https://camunda.github.io/feel-scala/docs/playground/)
 
 ### feelin (JavaScript FEEL engine)
 
