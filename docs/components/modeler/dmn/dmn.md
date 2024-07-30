@@ -8,40 +8,59 @@ description: "Camunda Desktop and Web Modeler both offer the same Modeling exper
 
 ![Start Modeling](assets/desktop-modeler-dmn/main.png)
 
-Camunda Desktop and Web Modeler both offer the same Modeling experience for DMN 1.3 models: Modeling starts in the Decision Requirements Diagram (DRD) view. From there, you can add DMN elements from the palette on the left side by dragging and dropping them onto the diagram canvas.
-
-Alternatively, you can add new elements by using the context menu that appears when you select an element in the diagram. Using the wrench icon in the context menu, you can change the type of an element in place. Use the properties panel on the right side to change the name or id of the DMN diagram.
+* Modeling experience for DMN 1.3 models
+  * ways
+    * Camunda Desktop
+    * Camunda Web Modeler  
+  * views
+    * Decision Requirements Diagram (DRD) view
+      * view / Modeling starts
+      * DMN elements
+        * can be added -- via --
+          * the palette | the left side / dragging and dropping them
+          * context menu / appears if you select an element in the diagram
+        * can be modified their properties -- via -- panel | right side
 
 ## Demo
 
 ![Demo](assets/desktop-modeler-dmn/demo.gif)
 
-The demo above shows how to model a decision table. After creating a decision and morphing it into a decision table, you can start editing the table by clicking the overlay on the upper left corner of the decision. Using the overview in the decision table view, you can jump between decision tables.
+* how to model a decision table
+  * if clicking the overlay | upper left corner of the decision -> you can edit it
 
 ## DMN coverage
 
-Modeler supports the following DMN elements:
-
-- Decision (tables and literal expressions)
-- Input data
-- Knowledge source
-- Business knowledge model
+* supported Modeler's DMN elements
+  * Decision (tables and literal expressions)
+  * Input data
+  * Knowledge source
+  * Business knowledge model
 
 ## Decision tables
 
 ![Decision Table](assets/desktop-modeler-dmn/decision-table.png)
 
-By clicking the blue icon on a decision table, you can open the decision table view and start to edit it. Add **Input**, **Output**, and **Rule** elements by clicking the plus signs. Edit a table cell by clicking on it. Alternatively, the tabulator and enter keys can be used to walk through the table cells.
-
-Delete a rule or a column, copy, or insert a new rule by right clicking in the cell:
+* decision table view
+  * if you click | blue icon on a decision table in the DRD -> it's open it
+  * if you click the plus signs -> you can add elements
+    * **Input**,
+    * **Output**,
+    * **Rule** 
+  * tabulator and enter keys -- can be used to walk through the -- table cells
+  * if you right click | cell -> you can about columns or rules
+    * delete
+    * copy
+    * insert
 
 ![Delete or copy rules](assets/desktop-modeler-dmn/dmn-modeler-right-click.png)
 
-Adjust the details of an input or output column (e.g., name, expression, and type) by double clicking in the header row:
+  * if you double click | header row -> you can adjust the details of an
+    * input or
+    * output column 
 
 ![Change input or output column](assets/desktop-modeler-dmn/dmn-modeler-double-click.png)
 
-Jump between decision tables or literal expressions in your decision requirement diagram by opening and using the `Overview` on the left side:
+  * jump between decision tables or literal expressions
 
 ![Jump between decision tables](assets/desktop-modeler-dmn/dmn-modeler-toggle-overview.png)
 
@@ -49,10 +68,13 @@ Jump between decision tables or literal expressions in your decision requirement
 
 ![New DMN Literal Expression](assets/desktop-modeler-dmn/literal-expression.png)
 
-You can also edit literal expressions. Just as with decision tables, in the decision requirement diagram view, click the blue icon to _drill-down_ into the literal expression view and start editing.
+* allows
+  * being edited
+* click the blue icon to _drill-down_ | decision requirement diagram view 
 
 ## Business knowledge models
 
+* TODO: 
 A _business knowledge model_ (BKM) is a reusable function containing a piece of decision logic. Typically, a BKM instantiates business logic that is required in multiple decisions, such as a common computation. For example, an amortization formula might be used in different loan application processes.
 
 You can make BKM elements executable using literal expressions written in FEEL, in almost the same way you would create a decision using a literal expression. A BKM literal expression can optionally accept parameters to be used as inputs to the FEEL expression, and it returns a single result whose name is the same as the BKM element name. Once you’ve created a BKM, it appears in autosuggestions when you’re using literal expressions to create decision logic.
