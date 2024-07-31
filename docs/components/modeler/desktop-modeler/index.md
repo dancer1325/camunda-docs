@@ -12,20 +12,26 @@ description: "Camunda Desktop Modeler is a desktop app for modeling BPMN, DMN, a
 ![Desktop Modeler Screenshot](./img/new-diagram.png)
 
 ## Features
-* TODO:
-- Design [BPMN](../bpmn/bpmn.md), [DMN](../dmn/dmn.md), and [Forms](../forms/camunda-forms-reference.md)
-- Implement process applications for Camunda 7 and 8
-- Deploy and run processes directly from the application
-- Validate your diagrams using [configurable lint rules](https://github.com/camunda/camunda-modeler-custom-linter-rules-plugin)
-- [Customize](./flags/flags.md) and [extend](./plugins/plugins.md) the application
+
+* Design 
+  * [BPMN](../bpmn/bpmn.md),
+  * [DMN](../dmn/dmn.md)
+  * [Forms](../forms/camunda-forms-reference.md)
+  * 👁️ much better than play with a .xml 👁️
+* Implement process applications -- for -- Camunda 7 and 8
+* Deploy and run processes directly -- from the -- application
+* Validate your diagrams -- via -- [configurable lint rules](https://github.com/camunda/camunda-modeler-custom-linter-rules-plugin)
+* [Customize the application](./flags/flags.md)
+* [extend the application](./plugins/plugins.md)
 
 ## Download
 
-Download the app for Windows, Linux, or macOS from the [Camunda downloads page](https://camunda.com/download/modeler/).
+* [Camunda downloads page](https://camunda.com/download/modeler/)
 
 ## Get started
 
-Learn how to [develop your first process](./model-your-first-diagram.md) and [deploy it](./connect-to-camunda-8.md) to Camunda 8.
+* [develop your first process](./model-your-first-diagram.md)
+* [deploy it to Camunda 8](./connect-to-camunda-8.md) 
 
 ## Resources
 
