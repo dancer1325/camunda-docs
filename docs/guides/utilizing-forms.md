@@ -4,11 +4,16 @@ title: Build forms with Modeler
 description: "Let's learn about Camunda Forms, how to use them, how to model them with a diagram, and deploying."
 ---
 
-<span class="badge badge--beginner">Beginner</span>
-<span class="badge badge--medium">Time estimate: 15 minutes</span>
+* Goal
+  * About forms
+    * design
+    * configure
+    * -- connect to a -- user task
+  * implement a task | your application
 
 ## Overview
 
+* TODO:
 The Camunda Forms feature allows you to easily design and configure forms. Once configured, they can be connected to a user task or start event to implement a task form in your application.
 
 After deploying a diagram with a linked form, Tasklist imports this form schema and uses it to render the form on every task assigned to it.
