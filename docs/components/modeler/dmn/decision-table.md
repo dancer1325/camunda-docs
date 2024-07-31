@@ -4,28 +4,30 @@ title: Overview
 description: This document outlines an overview of decision tables and their general properties.
 ---
 
-![Decision Table](assets/decision-table/dish-table.png)
+* Decision table
+  * == decision logic / -- can be depicted as a -- table 
+  * == [inputs](decision-table-input.md) + [outputs](decision-table-output.md) + [rules](decision-table-rule.md)
+  * is executed -- via --  decision engine (_Example:_ Camunda)
 
-A decision table represents decision logic which can be depicted as a table. It consists
-of [inputs](decision-table-input.md), [outputs](decision-table-output.md) and [rules](decision-table-rule.md).
+    ![Decision Table](assets/decision-table/dish-table.png)
 
-A decision table is represented by a `decisionTable` element inside a
-`decision` XML element.
+  * -- represented by -- `<decisionTable>` | `<decision>` 
 
-```xml
-
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions"
-             namespace="http://camunda.org/schema/1.0/dmn">
-    <decision id="dish" name="Dish">
-        <decisionTable id="decisionTable">
-            <!-- ... -->
-        </decisionTable>
-    </decision>
-</definitions>
-```
+    ```xml
+    
+    <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions"
+                 namespace="http://camunda.org/schema/1.0/dmn">
+        <decision id="dish" name="Dish">
+            <decisionTable id="decisionTable">
+                <!-- ... -->
+            </decisionTable>
+        </decision>
+    </definitions>
+    ```
 
 ## Decision name
 
+* TODO:
 ![Decision Name](assets/decision-table/decision-name.png)
 
 The name describes the decision for which the decision table provides the decision logic. It is set as the `name`
