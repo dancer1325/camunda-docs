@@ -5,9 +5,9 @@ description: A quickstart on how to use BPMN, an easy-to-adopt visual modeling l
 keywords: [workflow, modeling]
 ---
 
-<span class="badge badge--beginner">Beginner</span>
-<span class="badge badge--medium">Time estimate: 20 minutes</span>
-
+* Goal
+  * model an automated process -- via -- Web Modeler | Camunda 8 SaaS
+* TODO:
 Business Process Model and Notation (BPMN) is the global standard for process modeling. Combining BPMN, an easy-to-adopt visual modeling language, with Camunda, you can automate your business processes.
 
 Processes are the algorithms that determine how an organization runs based on independent tasks. Successful businesses grow from proven, effective processes. Therefore, Camunda’s workflow engine executes processes defined in BPMN to ensure these processes can be swiftly orchestrated within a diagram.
