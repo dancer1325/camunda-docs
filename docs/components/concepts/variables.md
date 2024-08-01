@@ -4,91 +4,133 @@ title: "Variables"
 description: "Variables are part of a process instance and represent the data of the instance."
 ---
 
-Variables are part of a process instance and represent the data of the instance.
-
-A variable has a name and a JSON value. The visibility of a variable is defined by its variable scope.
-
-When [automating a process using BPMN](../../guides/automating-a-process-using-bpmn.md) or [orchestrating human tasks](../../guides/getting-started-orchestrate-human-tasks.md), you can leverage the scope of these variables and customize how variables are merged into the process instance.
+* Variables
+  * == part of a process instance
+  * == instance's data
+    * == name + JSON value
+    * == key / value
+  * visibility
+    * -- defined by -- its variable scope
+    * uses
+      * customize how variables -- are merged -- | process instance
+    * use cases
+      * [automating a process using BPMN](../../guides/automating-a-process-using-bpmn.md) or
+      * [orchestrating human tasks](../../guides/getting-started-orchestrate-human-tasks.md) 
+  
 
 ## Variable names
 
-The name of a variable can be any alphanumeric string including the `_` symbol. For a combination of words, it's recommended to use the `camelCase` or the `snake_case` format. The `kebab-case` format is not allowed because it contains the operator `-`.
+* allowed
+  * ANY alphanumeric string
+  * `_`
+  * if you want to combine words -> use
+    * `camelCase` or
+    * `snake_case`
+    * ❌`kebab-case` NOT allowed ❌
+      * Reason: 🧠 contains the operator `-` 🧠
+* restrictions
+  * NOT start / **number** -- _Example:_ `1stChoice` --
+  * NOT contain / 
+    * **whitespaces**  -- _Example:_ `choice other` --
+    * **operator** -- _Example:_ `+`, `-`, `*`, `/`, `=`, `>`, `?`, `.` --
+  * NOT **literal** -- _Example:_ `null`, `true`, `false` --
+  * NOT **keyword**  -- _Example:_ `function`, `if`, `then`, `else`, `for`, `between`, `instance`, `of`, `not` --
+* case-sensitive
 
-When accessing a variable in an expression, keep in mind the variable name is case-sensitive.
-
-Restrictions of a variable name:
-
-- It may not start with a **number** (e.g. `1stChoice` is not allowed; you can use `firstChoice`instead).
-- It may not contain **whitespaces** (e.g. `order number` is not allowed; you can use `orderNumber` instead).
-- It may not contain an **operator** (e.g. `+`, `-`, `*`, `/`, `=`, `>`, `?`, `.`).
-- It may not be a **literal** (e.g. `null`, `true`, `false`) or a **keyword** (e.g. `function`, `if`, `then`, `else`, `for`, `between`, `instance`, `of`, `not`).
 
 ## Variable values
 
-The value of a variable is stored as a JSON value. It can have one of the following types:
-
-- String (e.g. `"John Doe"`)
-- Number (e.g. `123`, `0.23`)
-- Boolean (e.g. `true` or `false`)
-- Array (e.g. `["item1" , "item2", "item3"]`)
-- Object (e.g. `{ "orderNumber": "A12BH98", "date": "2020-10-15", "amount": 185.34}`)
-- Null (`null`)
+* stored - as a -- JSON value
+* allowed types
+  * String -- _Example:_ `"John Doe"` --
+  * Number -- _Example:_ `123`, `0.23` --
+  * Boolean -- _Example:_ `true` or `false` --
+  * Array -- _Example:_ `["item1" , "item2", "item3"]` --
+  * Object -- _Example:_ `{ "orderNumber": "A12BH98", "date": "2020-10-15", "amount": 185.34}` --
+  * Null  == `null`
 
 ## Variable size limitation
 
-Generally, there is a limit of 4 MB for the payload of a process instance. This 4 MB includes the variables and the workflow engine internal data, which means there is slightly less memory available for variables. The exact limitation depends on a few factors, but you can consider 3 MB as being safe. If in doubt, run a quick test case.
-
-:::note
-Regardless, we don't recommend storing much data in your process context. Refer to our [best practice on handling data in processes](/components/best-practices/development/handling-data-in-processes.md).
-:::
+* process instance's payload / include variables + workflow engine internal data <= 4 MB
+  * == NOT ALL can be used by variables JUST
+  * average allowed variable's size <= 3 MB 
+  * [Check best practice | handling data in processes](/components/best-practices/development/handling-data-in-processes.md) 
+  * workflow engine internal data's size -- depends on -- factors
 
 ## Variable scopes
 
-Variable scopes define the _visibility_ of variables. The root scope is the process instance itself. Variables in this scope are visible everywhere in the process.
+* == variable's  _visibility_
+  * defined | variable creation 
+* root scope
+  * == process instance itself
+  * variables | root scope -> visible EVERYWHERE | process
+  * default scope | variables are created
+* once process instance enters | subprocess or activity -> new scope is created
+  * activities | this scope -- can observe -- ALL variables parent scopes (== this & higher scopes)
+  * activities / outside of this scope -- can NOT observe -- variables / defined | this scope
+* if variableName == variableName / higher scope -> it covers this variable
+  * activities | this scope -- observe -- 
+    * ONLY the value of this variable
+    * NOT the one / higher scope
+* _Example:_
 
-When the process instance enters a subprocess or an activity, a new scope is created. Activities in this scope can observe all variables of this and of higher scopes (i.e. parent scopes). However, activities outside of this scope can not observe the variables which are defined in this scope.
+    ![variable-scopes](assets/variable-scopes.png)
 
-If a variable has the same name as a variable from a higher scope, it covers this variable. Activities in this scope observe only the value of this variable and not the one from the higher scope.
-
-The scope of a variable is defined when the variable is created. By default, variables are created in the root scope.
-
-![variable-scopes](assets/variable-scopes.png)
-
-This process instance has the following variables:
-
-- `a` and `b` are defined on the root scope and can be seen by **Task A**, **Task B**, and **Task C**.
-- `c` is defined in the subprocess scope and can be seen by **Task A** and **Task B**.
-- `b` is defined again on the activity scope of **Task A** and can be seen only by **Task A**. It covers the variable `b` from the root scope.
+    * process instance's variables
+      * `a` and `b`
+        * defined | root scope
+        * -- can be seen by --
+          * **Task A**,
+          * **Task B**,
+          * **Task C**
+      * `c`
+        * defined | subprocess scope
+        * -- can be seen by --
+          * **Task A**
+          * **Task B**
+      * `b`
+        * defined | **Task A**'s activity scope
+        * -- can be seen --
+          * ONLY by **Task A**
 
 ### Variable propagation
 
-When variables are merged into a process instance (e.g. on job completion, on message correlation, etc.) each variable is propagated from the scope of the activity to its higher scopes.
-
-The propagation ends when a scope contains a variable with the same name. In this case, the variable value is updated.
-
-If no scope contains this variable, it's created as a new variable in the root scope.
-
-![variable-propagation](assets/variable-propagation.png)
-
-The job of **Task B** is completed with the variables `b`, `c`, and `d`. The variables `b` and `c` are already defined in higher scopes and are updated with the new values. Variable `d` doesn't exist before and is created in the root scope.
+* == from the scope of the activity -- variable is propagated to -- its higher scopes 
+  * use cases
+    * variables -- are merged into -- process instance ( _Example:_ | job completion, | message correlation)  
+  * if scope / contains a variableName = variableToPropagateName -> propagation ends
+    * ->  variable value is updated
+  * if NO scope / contains this variableToPropagate -> new variable is created | root scope
+* _Example:_
+    ![variable-propagation](assets/variable-propagation.png)
+  * **Task B** jobs -- is completed with the -- variables `b`, `c`, and `d`
+    * Reason: 🧠 variables `b` and `c` are ALREADY defined | higher scopes & are updated with the new values 🧠
+    * Variable `d` does NOT exist before and is created | root scope
 
 ### Local variables
 
-In some cases, variables should be set in a given scope, even if they don't exist in this scope before.
-
-To deactivate the variable propagation, the variables are set as **local variables**. This means the variables are created or updated in the given scope, regardless if they existed in this scope before.
+* == variables set | given scope
+  * even if they do NOT exist | this scope, before
+* allows
+  * deactivating the variable propagation
 
 ## Input/output variable mappings
 
-Input/output variable mappings can be used to create new variables or customize how variables are merged into the process instance.
-
-Variable mappings are defined in the process as extension elements under `ioMapping`. Every variable mapping has a `source` and a `target` expression.
-
-The `source` expression defines the **value** of the mapping. Usually, it [accesses a variable](/components/modeler/feel/language-guide/feel-variables.md#access-variable) of the process instance that holds the value. If the variable or the nested property doesn't exist, it uses `null` as the value.
-
-The `target` expression defines **where** the value of the `source` expression is stored. It can reference a variable by its name or a nested property of a variable. If the variable or the nested property doesn't exist, it's created.
-
-Variable mappings are evaluated in the defined order. Therefore, a `source` expression can access the target variable of a previous mapping.
+* allows
+  * creating NEW variables or 
+  * customizing how variables -- are merged -- into the process instance
+* defined as extension elements | `ioMapping`
+* == `source`expression + `target` expression
+  * `source`expression
+    * -- defines the -- **value** of the mapping
+    * uses
+      * [accesses a variable](/components/modeler/feel/language-guide/feel-variables.md#access-variable) of the process instance / holds the value
+        * if the variable or the nested property does NOT exist -> value `null`
+  * `target` expression
+    * -- defines -- **where** the value of the `source` expression is stored
+    * It can reference a variable by its name or a nested property of a variable. If the variable or the nested property doesn't exist, it's created.
+* evaluated | defined order
+  * `source` expression -- can access the -- previous mapping's target variable 
 
 ![variable-mappings](assets/variable-mappings.png)
 
@@ -109,6 +151,7 @@ Variable mappings are evaluated in the defined order. Therefore, a `source` expr
 
 ### Input mappings
 
+* TODO:
 Input mappings can be used to create new variables. They can be defined on service tasks and subprocesses.
 
 When an input mapping is applied, it creates a new **local variable** in the scope where the mapping is defined.
