@@ -1,34 +1,39 @@
 ---
 ---
 
-**Starting in 8.6.0-alpha2**, you can install Camunda 8 Self-Managed as an integrated plain Java application.
+**Starting in 8.6.0-alpha2**
 
-For this installation, you must have:
-
-- OpenJDK 21+ locally installed
-- Camunda `8.6.0-alpha2` or later
+* Camunda 8 Self-Managed -- can be installed as an -- integrated plain Java application
+  * requisites
+    * OpenJDK 21+ locally installed
+    * Camunda `8.6.0-alpha2` or later
 
 ### Download and configure Elasticsearch
 
-:::warning
-Disabling Elasticsearch's security packages is for non-production only!
-:::
-
-1. Download [Elasticsearch 8.9.2](https://www.elastic.co/downloads/past-releases/elasticsearch-8-9-2) and follow the [installation instructions](https://www.elastic.co/guide/en/elasticsearch/reference/8.9/targz.html).
-2. Navigate to the directory where you installed Elasticsearch, and open `/config/elasticsearch.yml`. Add the line `xpack.security.enabled: false` to the bottom of the configuration to disable Elasticsearch's security packages.
-3. Start Elasticsearch by running `ELASTICSEARCH_HOME/bin/elasticsearch` (or `ELASTICSEARCH_HOME\bin\elasticsearch.bat` on Windows).
-
-Confirm Elasticsearch is running by visiting `http://localhost:9200` in a browser. If the response doesn't include version information formatted as JSON, you will need to troubleshoot your installation.
+1. Download [Elasticsearch 8.9.2](https://www.elastic.co/downloads/past-releases/elasticsearch-8-9-2) and follow the [installation instructions](https://www.elastic.co/guide/en/elasticsearch/reference/8.9/targz.html)
+2. if you are in non-production -> disable Elasticsearch's security packages
+   1. Navigate to the directory | you installed Elasticsearch
+   2. open `/config/elasticsearch.yml`
+   3. Add the line `xpack.security.enabled: false` | bottom of the configuration
+3. Start Elasticsearch
+   1. `ELASTICSEARCH_HOME/bin/elasticsearch` | Linux or Mac
+   2. `ELASTICSEARCH_HOME\bin\elasticsearch.bat` | Windows
+4. Open `http://localhost:9200` | browser
+   1. == confirm Elasticsearch is running
+   2. If the response does NOT include version information / -- formatted as -- JSON -> troubleshoot your installation
 
 ### Download and configure Camunda
 
-1. Download and extract the [latest `camunda-zeebe-` release artifact](https://github.com/camunda/camunda/releases) in the **Assets** section of the release page, starting with [8.6.0-alpha2](https://github.com/camunda/camunda/releases/tag/8.6.0-alpha2).
-2. Navigate to the directory where you installed Camunda, and open `/config/application.yaml`. Add the following Elasticsearch exporter as a child of the `zeebe`/`broker` configuration element:
+1. Download and extract the [latest `camunda-zeebe-` release artifact](https://github.com/camunda/camunda/releases) | **Assets** section
+   1. \>= [8.6.0-alpha2](https://github.com/camunda/camunda/releases/tag/8.6.0-alpha2)
+2. open `/config/application.yaml` | directory / you installed Camunda
+   1. Add the following Elasticsearch exporter | `zeebe.broker`
 
 ```
 zeebe:
   broker:
     ...
+    # identation is important, as any .yaml
     exporters:
       elasticsearch:
         className: io.camunda.zeebe.exporter.ElasticsearchExporter
@@ -38,13 +43,8 @@ zeebe:
             prefix: zeebe-record
 ```
 
-:::note
-Spacing is important! Indent the `exporters` element four spaces to properly nest the configuration.
-
 <details>
-<summary>Still need help?</summary>
-
-Here is the full `application.yaml` file:
+<summary>Example of typical full "application.yaml"</summary>
 
 ```
 zeebe:
@@ -174,14 +174,13 @@ camunda:
 
 </details>
 
-:::
+3. start Camunda
+   1. `bin/camunda` | Linux or Mac
+   2. `bin\camunda.bat` | Windows
 
-Save the file. Without performing this step, no data will be visible in Operate or Tasklist.
-
-3. To start Camunda, run `bin/camunda` (or `bin\camunda.bat` on Windows).
-
-It may take a few minutes for startup to complete. When the message `Started StandaloneCamunda in ___ seconds` is displayed, the application is ready to use.
-
-:::tip
-Operate can be found at `http://localhost:8080/operate` and Tasklist can be found at `http://localhost:8080/tasklist`. Both use a default username/password of `demo`/`demo`.
-:::
+Once the message `Started StandaloneCamunda in ___ seconds` is displayed -> the application is ready to use
+4. Check that
+   1. `http://localhost:8080/operate`  -- find the Operate --
+      1. username/password of `demo`/`demo`
+   2. `http://localhost:8080/tasklist`  -- find the Tasklist --
+      1. username/password of `demo`/`demo`
