@@ -12,19 +12,21 @@ import Install from './react-components/install-plain-java.md'
 <span class="badge badge--beginner">Beginner</span>
 <span class="badge badge--medium">1 hour</span><br /><br />
 
-:::note
-This tutorial is not intended for production purposes.
-:::
-
-In this guide, we'll step through using Spring Boot and the [Spring Zeebe SDK](/apis-tools/spring-zeebe-sdk/getting-started.md) with Desktop Modeler to interact with your local Self-Managed Camunda 8 installation. While this guide focuses on Self-Managed, you can do something similar with [SaaS](https://signup.camunda.com/accounts?utm_source=docs.camunda.io&utm_medium=referral).
-
-By the end of this tutorial, you'll be able to use Spring and Java code with Zeebe to:
-
-- Deploy a process model.
-- Initiate a process instance.
-- Handle a service task.
-
-For example, in this guide we will outline a BPMN model to receive a payment request, prepare a transaction, charge a credit card, and execute a payment:
+* Goal
+  * Spring Boot + [Spring Zeebe SDK](/apis-tools/spring-zeebe-sdk/getting-started.md) + Desktop Modeler
+    * Desktop Modeler
+      * -- for interacting with -- your local Self-Managed Camunda 8 installation
+      * alternatively, you can use [SaaS](https://signup.camunda.com/accounts?utm_source=docs.camunda.io&utm_medium=referral)
+  * purpose
+    * Deploy a process model
+    * Initiate a process instance
+    * Handle a service task
+  * use case
+    * BPMN model /
+      * receive a payment request,
+      * prepare a transaction,
+      * charge a credit card,
+      * execute a payment
 
 ![example BPMN model to receive a payment request, prepare a transaction, charge a credit card, and execute a payment](./img/prepare-transaction-example.png)
 
@@ -35,7 +37,7 @@ For example, in this guide we will outline a BPMN model to receive a payment req
 <Install/>
 
 ## Step 2: Create a new Spring Boot project
-
+* TODO:
 Next, create a new Spring Boot project:
 
 1. Go to [https://start.spring.io/](https://start.spring.io/) to get started.
