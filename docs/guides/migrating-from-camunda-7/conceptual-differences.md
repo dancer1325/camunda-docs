@@ -7,30 +7,52 @@ description: "Understand conceptual differences with Camunda 7 and Camunda 8 bef
 
 ## Conceptual differences
 
-This section does not compare Camunda 7 with Camunda 8 in detail, but rather lists differing aspects important to know when thinking about migration.
+* This section
+  * != detailed Camunda 7 vs Camunda 8
+  * == Camunda 7 -- vs (main aspects) -- Camunda 8
 
 ### No embedded engine in Camunda 8
 
-Camunda 7 allows embedding the workflow engine as a library in your application. This means both run in the same JVM, share thread pools, and can even use the same data source and transaction manager.
-
-In contrast, the workflow engine in Camunda 8, Zeebe, is always a remote resource for your application, while the embedded engine mode is not supported.
-
-If you are interested in the reasons why we switched our recommendation from embedded to remote workflow engines, refer to [this blog post](https://blog.bernd-ruecker.com/moving-from-embedded-to-remote-workflow-engines-8472992cc371).
-
-The implications for your process solution and the programming model are described below. Conceptually, the only big difference is that with a remote engine, you cannot share technical [ACID transactions](https://en.wikipedia.org/wiki/ACID) between your code and the workflow engine. You can read more about it in the blog post on [achieving consistency without transaction managers](https://blog.bernd-ruecker.com/achieving-consistency-without-transaction-managers-7cb480bd08c).
+* Camunda 7
+  * allows
+    * workflow engine -- is embedded as a -- library | your application
+      * == workflow engine & your application
+        * run | same JVM,
+        * share thread pools,
+        * can use SAME 
+          * data source
+          * transaction manager
+* Camunda 8
+  * workflow engine (named Zeebe)
+    * 👁️is ALWAYS a remote resource -- for -- your application / NOT supported embedded engine mode 👁️
+        * [Reasons of this paradigma change](https://blog.bernd-ruecker.com/moving-from-embedded-to-remote-workflow-engines-8472992cc371)
+        * remote engine vs embedded engine
+          * (remote engine) your code -- can NOT share technical [ACID transactions](https://en.wikipedia.org/wiki/ACID) with the -- workflow engine
+            * [achieving consistency without transaction managers](https://blog.bernd-ruecker.com/achieving-consistency-without-transaction-managers-7cb480bd08c).
 
 ### Different data types
 
-In Camunda 7, you can store different data types, including serialized Java objects.
+* Camunda 7
+  * different data types / storing
+    * Note: even ALLOWED serialized Java objects
+  * [Camunda Spin](https://docs.camunda.org/manual/latest/reference/spin/)
+    * easier handling for
+      * XML
+      * JSON
 
-Camunda 8 only allows storage of primary data types or JSON as process variables. This might require some additional data mapping in your code when you set or get process variables.
-
-Camunda 7 provides [Camunda Spin](https://docs.camunda.org/manual/latest/reference/spin/) to ease XML and JSON handling. This is not available with Camunda 8, and ideally you migrate to an own data transformation logic you can fully control (e.g. using Jackson).
-
-To migrate existing process solutions that use Camunda Spin heavily, you can still add the Camunda Spin library to your application itself and use its API to do the same data transformations as before in your application code.
+* Camunda 8
+  * data types / storing
+    * primary data types
+    * JSON -- _Example:_ process variables --
+      * if you set or get process variables -- might require -> additional data mapping
+  * Camunda Spin
+    * NOT supported 
+      * -> require OWN data transformation logic
+      * if existing process solution / use Camunda Spin heavily & you want to migrate  -> add Camunda Spin library | your application itself & use its API
 
 ### Expression language
 
+* TODO:
 Camunda 7 uses [Java Unified Expression Language (JUEL)](https://docs.camunda.org/manual/latest/user-guide/process-engine/expression-language/) as the expression language. In the embedded engine scenario, expressions can even read into beans (Java object instances) in the application.
 
 Camunda 8 uses [Friendly-Enough Expression Language (FEEL)](/components/modeler/feel/what-is-feel.md) and expressions can only access the process instance data and variables.
@@ -62,34 +84,35 @@ There are several differences between how [multi-tenancy](/self-managed/concepts
 
 ## Process solutions using Spring Boot
 
-With Camunda 7, a frequented architecture to build a process solution (also known as process applications) is composed out of:
-
-- Java
-- Spring Boot
-- Camunda Spring Boot Starter with embedded engine
-- Glue code implemented in Java delegates (being Spring beans)
-
-This is visualized on the lefthand side of the picture below. With Camunda 8, a comparable process solution would look like the righthand side of the picture and leverage:
-
-- Java
-- Spring Boot
-- Spring Zeebe Starter (embedding the Zeebe client)
-- Glue code implemented as workers (being Spring beans)
+* typical architecture to build a process solution | Camunda 7 (left side | picture) ==
+  * Java
+  * Spring Boot
+  * Camunda Spring Boot Starter / embedded engine
+  * Glue code / -- implemented in -- Java delegates (being Spring beans)
+* typical architecture to build a process solution | Camunda 8 (right side | picture) ==
+  * Java
+  * Spring Boot
+  * Spring Zeebe Starter / embedding the Zeebe client
+  * Glue code / -- implemented as -- workers (being Spring beans)
 
 ![spring boot](../img/architecture-spring-boot.png)
 
-The difference is that the engine is no longer embedded, which is also our latest [greenfield stack recommendation in Camunda 7](/components/best-practices/architecture/deciding-about-your-stack-c7.md#the-java-greenfield-stack). If you are interested in the reasons why we switched our recommendation from embedded to remote workflow engines, refer to [this blog post](https://blog.bernd-ruecker.com/moving-from-embedded-to-remote-workflow-engines-8472992cc371).
-
-The packaging of a process solution is the same with Camunda 7 and Camunda 8. Your process solution is one Java application that consists of your BPMN and DMN models, as well as all glue code needed for connectivity or data transformation. The big difference is that the configuration of the workflow engine itself is not part of the Spring Boot application anymore.
+* main differences
+  * ⭐ engine is NO longer embedded ⭐ 
+    * [Reasons of this redesign](https://blog.bernd-ruecker.com/moving-from-embedded-to-remote-workflow-engines-8472992cc371)
+    * [latest greenfield stack recommendation | Camunda 7](/components/best-practices/architecture/deciding-about-your-stack-c7.md#the-java-greenfield-stack)
+    * -> workflow engine configuration -- NOT part of the -- Spring Boot application
+* process solution
+  * | Camunda 7 == | Camunda 8
+  * == 1 Java application / == BPMN and DMN models + glue code / -- for -- connectivity or data transformation
+  * [Definition -- based on -- Practical Process Automation](https://processautomationbook.com/) 
 
 ![Process Solution Packaging](../img/process-solution-packaging.png)
 
-Process solution definition taken from [Practical Process Automation](https://processautomationbook.com/).
-
-You can find a complete Java Spring Boot example, showing the Camunda 7 process solution alongside the comparable Camunda 8 process solution in the [Camunda 7 to Camunda 8 migration example](https://github.com/camunda-community-hub/camunda-7-to-8-migration/tree/main/example).
+* _Example:_[Camunda 7 to Camunda 8 migration example](https://github.com/camunda-community-hub/camunda-7-to-8-migration/tree/main/example)
 
 ## Programming model
-
+* TODO: 
 The programming models of Camunda 7 and Camunda 8 are very similar if you program in Java and use Spring.
 
 For example, a worker in Camunda 8 can be implemented like this (using the [Spring Zeebe SDK](../../apis-tools/spring-zeebe-sdk/getting-started.md)):
