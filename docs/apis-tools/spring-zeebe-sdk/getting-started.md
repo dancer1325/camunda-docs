@@ -4,7 +4,11 @@ title: Getting started
 description: "Leverage Zeebe APIs (gRPC and REST) in your Spring Boot project."
 ---
 
-This project allows you to leverage Zeebe APIs ([gRPC](/apis-tools/zeebe-api/grpc.md) and [REST](/apis-tools/zeebe-api-rest/zeebe-api-rest-overview.md)) in your Spring Boot project. Later on, we’ll expand the Spring Zeebe SDK to deliver a Camunda Spring SDK that provides a unified experience for interacting with all Camunda APIs in Java Spring.
+* Zeebe APIs | Spring Boot project
+  * [gRPC](/apis-tools/zeebe-api/grpc.md) and 
+  * [REST](/apis-tools/zeebe-api-rest/zeebe-api-rest-overview.md)
+* Camunda Spring SDK
+  * == expansion of Spring Zeebe SDK / -- interact with -- ALL Camunda APIs | Java Spring
 
 ## Version compatibility
 
@@ -14,7 +18,7 @@ This project allows you to leverage Zeebe APIs ([gRPC](/apis-tools/zeebe-api/grp
 
 ## Add the Spring Zeebe SDK to your project
 
-Add the following repository and Maven dependency to your Spring Boot Starter project:
+* add 
 
 ```xml
 <repositories>
@@ -42,102 +46,107 @@ Add the following repository and Maven dependency to your Spring Boot Starter pr
 
 ## Enable the Java Compiler `-parameters`-flag
 
-If you don't want to specify annotation values just as the process variable name on the [variable](#using-variable) annotation, the Java compiler flag `-parameters` is required.
+* 👁️If you do NOT want to specify annotation values (_Example:_ process variable name | [variable](#using-variable) annotation) -> required the Java compiler flag `-parameters` 👁️	
+* via
+  * Mavem
 
-If you are using Maven you can enable this with the Compiler plugin:
+    ```xml
+    <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+              <compilerArgs>
+                <arg>-parameters</arg>
+              </compilerArgs>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    ```
+    * Gradle
 
-```xml
-<build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <compilerArgs>
-            <arg>-parameters</arg>
-          </compilerArgs>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-```
+    ```xml
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-parameters'
+    }
+    ```
 
-If you are using Gradle:
+    * IntelliJ
 
-```xml
-tasks.withType(JavaCompile) {
-    options.compilerArgs << '-parameters'
-}
-```
-
-If you are using IntelliJ:
-
-```agsl
-Settings > Build, Execution, Deployment > Compiler > Java Compiler
-```
+    ```agsl
+    Settings > Build, Execution, Deployment > Compiler > Java Compiler
+    ```
 
 ## Configuring the Camunda 8 connection
 
-The default properties for setting up all connection details are hidden in modes. Each connection mode has particular defaults to ease configuration.
-
-The mode is set on `camunda.client.mode` and can be `self-managed` or `saas`. Further usage of each mode is explained below.
-
-:::note
-Zeebe will now also be configured with a URL (`http://localhost:26500` instead of `localhost:26500` + plaintext connection flag).
-:::
+* `camunda.client.mode`
+  * -- based on -- Camunda types
+    * Saas
+    * Self-Managed
+* Zeebe configured via URL
+  * _Example:_ "http://localhost:26500"
+  * NOT via `localhost:26500` + plaintext connection flag 
 
 ### Saas
 
-Connections to Camunda SaaS can be configured by creating the following entries in `src/main/resources/application.yaml`:
+* `camunda.client.mode:Saas`
+* _Example:_ "src/main/resources/application.yaml"
 
-```yaml
-camunda:
-  client:
-    mode: saas
-    auth:
-      client-id: <your client id>
-      client-secret: <your client secret>
-    cluster-id: <your cluster id>
-    region: <your cluster region>
-```
+    ```yaml
+    camunda:
+      client:
+        mode: saas
+        auth:
+          client-id: <your client id>
+          client-secret: <your client secret>
+        cluster-id: <your cluster id>
+        region: <your cluster region>
+    ```
 
 ### Self-Managed
 
-If you set up a Self-Managed cluster with Identity, Keycloak is used as the default Identity provider. As long as the port config (from Docker Compose or port-forward with Helm charts) is the default, you must configure the accompanying Spring profile and client credentials:
+* `camunda.client.mode:self-managed`
+* if you set up a Self-Managed cluster + Identity
+  * Keycloak -- is used as the -- default Identity provider
+  * _Example:_ default port config (from Docker Compose or port-forward with Helm charts) -> configure the accompanying Spring profile and client credentials
 
-```yaml
-camunda:
-  client:
-    mode: self-managed
-    auth:
-      client-id: <your client id>
-      client-secret: <your client secret>
-      issuer: http://localhost:18080/auth/realms/camunda-platform/protocol/openid-connect/token
-```
+    ```yaml
+    camunda:
+      client:
+        mode: self-managed
+        auth:
+          client-id: <your client id>
+          client-secret: <your client secret>
+          issuer: http://localhost:18080/auth/realms/camunda-platform/protocol/openid-connect/token
+    ```
 
-If you have different endpoints for your applications or want to disable a client, configure the following:
+* if you have different endpoints / your applications OR want to disable a client
 
-```yaml
-camunda:
-  client:
-    mode: self-managed
-    tenant-ids:
-      - <default>
-    auth:
-      client-id: <your client id>
-      client-secret: <your client secret>
-      issuer: http://localhost:18080/auth/realms/camunda-platform/protocol/openid-connect/token
-    zeebe:
-      enabled: true
-      grpc-address: http://localhost:26500
-      rest-address: http://localhost:8080
-      prefer-rest-over-grpc: false
-      audience: zeebe-api
-```
+    ```yaml
+    camunda:
+      client:
+        mode: self-managed
+        tenant-ids:
+          - <default>
+        auth:
+          client-id: <your client id>
+          client-secret: <your client secret>
+          issuer: http://localhost:18080/auth/realms/camunda-platform/protocol/openid-connect/token
+        zeebe:
+          enabled: true
+          grpc-address: http://localhost:26500
+          rest-address: http://localhost:8080
+          prefer-rest-over-grpc: false
+          audience: zeebe-api
+    ```
 
 ## Obtain the Zeebe client
 
-You can inject the Zeebe client and work with it to create new workflow instances, for example:
+* inject the Zeebe client
+* uses
+  * create new workflow instances
 
 ```java
 @Autowired
@@ -146,28 +155,31 @@ private ZeebeClient client;
 
 ## Deploy process models
 
-Use the `@Deployment` annotation:
+* `@Deployment` 
+  * -- based on -- [the Spring resource loader](#resources-resourceloader) mechanism
+  * _Example:_
 
-```java
-@SpringBootApplication
-@Deployment(resources = "classpath:demoProcess.bpmn")
-public class MySpringBootApplication {
-```
+    ```java
+    @SpringBootApplication
+    @Deployment(resources = "classpath:demoProcess.bpmn")
+    public class MySpringBootApplication {
+    ```
 
-This annotation internally uses [the Spring resource loader](#resources-resourceloader) mechanism. This is powerful, and can also deploy multiple files at once, for example:
+  * _Example:_ deploy multiple files | at once
 
-```java
-@Deployment(resources = {"classpath:demoProcess.bpmn" , "classpath:demoProcess2.bpmn"})
-```
+    ```java
+    @Deployment(resources = {"classpath:demoProcess.bpmn" , "classpath:demoProcess2.bpmn"})
+    ```
 
-Or, define wildcard patterns:
+  * _Example:_ define wildcard patterns
 
-```java
-@Deployment(resources = "classpath*:/bpmn/**/*.bpmn")
-```
+    ```java
+    @Deployment(resources = "classpath*:/bpmn/**/*.bpmn")
+    ```
 
 ## Implement the job worker
 
+* [the configuration documentation](/apis-tools/spring-zeebe-sdk/configuration.md) 
 ```java
 @JobWorker(type = "foo")
 public void handleJobFoo(final ActivatedJob job) {
@@ -175,4 +187,4 @@ public void handleJobFoo(final ActivatedJob job) {
 }
 ```
 
-See [the configuration documentation](/apis-tools/spring-zeebe-sdk/configuration.md) for a more in-depth discussion on parameters and configuration options for job workers.
+ 
