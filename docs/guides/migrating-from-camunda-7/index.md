@@ -13,25 +13,25 @@ keywords:
   ]
 ---
 
-:::note
-Migration of existing projects to Camunda 8 is optional. Camunda 7 still has ongoing [support](https://docs.camunda.org/enterprise/announcement/).
-:::
+* existing projects | Camunda 7 -- to -- Camunda 8 is OPTIONAL
+* Camunda 7 still has ongoing [support](https://docs.camunda.org/enterprise/announcement/)
+* Guide to migrate process solutions | Camunda 7 -> | Camunda 8 / topics
+  * compare application architecture
+  * migration can be done
+    * for
+      * process models
+      * code
+    * NOT for
+      * runtime
+      * history data
+  * complexity of the migration -- depends on -- process models
+  * code / uses the workflow engine API -- need to be -- adjusted
+  * community extensions / can help with migration
+  * Clean Delegate approach,
+    * which helps you write Camunda 7 solutions that are easier to migrate
 
-This guide describes how to migrate process solutions developed for Camunda 7 to run them on Camunda 8, including:
-
-- Differences in application architecture
-- How process models and code can generally be migrated, whereas runtime and history data cannot
-- How migration can be very simple for some models, but also marked limitations, where migration might get very complicated
-- You need to adjust code that uses the workflow engine API
-- How you might be able to reuse glue code
-- Community extensions that can help with migration
-- The Clean Delegate approach, which helps you write Camunda 7 solutions that are easier to migrate
-
-We are watching all customer migration projects closely and will update this guide in the future.
 
 ## What to expect
-
-Before diving into concrete steps on migrating your models and code, let's cover some conceptual topics and migration readiness steps. The list below provides an outline of the sections in this guide:
 
 - [Conceptual differences](./conceptual-differences.md)
 - [Migration readiness](./migration-readiness.md)
@@ -41,16 +41,16 @@ Before diving into concrete steps on migrating your models and code, let's cover
 
 ## Open issues
 
-As described earlier in this guide, migration is an ongoing topic and this guide is far from complete. Open issues include the following:
-
-- Describe implications on testing
-- Discuss adapters for Java or REST client
-- Discuss more concepts around BPMN:
-  ** [Field injection](https://docs.camunda.org/manual/latest/user-guide/process-engine/delegation-code/#field-injection) that is using `camunda:field` available on many BPMN elements.
-  ** Multiple instance markers available on most BPMN elements.
-  ** `camunda:inputOutput` available on most BPMN elements.
-  ** `camunda:errorEventDefinition` available on several BPMN elements.
-- Discuss workload migrations (operations)
-- Eventual consistency
+* this guide is FAR from complete
+  * Open issues
+    * implications | testing
+    * adapters for Java or REST client
+    * more concepts around BPMN:
+      * [Field injection](https://docs.camunda.org/manual/latest/user-guide/process-engine/delegation-code/#field-injection) that is using `camunda:field` available on many BPMN elements.
+      * Multiple instance markers available on most BPMN elements.
+      * `camunda:inputOutput` available on most BPMN elements.
+      * `camunda:errorEventDefinition` available on several BPMN elements.
+    * workload migrations (operations)
+    * Eventual consistency
 
 [Reach out to us](/contact/) to discuss your specific migration use case.
