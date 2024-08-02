@@ -5,7 +5,7 @@ description: "Dependencies and Third Party Libraries for all the components of C
 keywords: ["dependencies", "third party", "third party libraries"]
 ---
 
-A complete list of all dependencies and third-party libraries for all the components of Camunda 8 (including Self-Managed).
+* ALL dependencies and third-party libraries / Camunda 8's components (including Self-Managed)
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
